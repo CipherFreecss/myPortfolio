@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start</title>
+    <link rel="stylesheet" type="text/css" href="css/start-style.css">
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-image: url('IMG/bg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            /* Fade-in on page load */
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+
+            /* Fade-out transition when leaving */
+            transition: opacity 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* class we add with JS right before navigating away */
+        body.fade-out {
+            opacity: 0;
+        }
+
+        a.btn {
+            display: inline-block;
+            margin-bottom: 50px;
+            padding: 10px 20px;
+            color: #d9b3ff;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 900;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        a.btn:hover {
+            transform: translateY(-3px);
+        }
+
+        #myButton {
+            background-color: #030303;
+            border: 2px solid rgb(244, 238, 245);
+        }
+
+        .button-1 {
+            background-color: #000000;
+            border: 2px solid rgb(248, 246, 248);
+        }
+       .bg-video {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 1;
+        }
+    </style>
+</head>
+<body>
+   
+    <a href="index.html" class="btn" id="myButton">Click Me</a>
+      <video class="bg-video" autoplay muted loop playsinline>
+      <source src="c:\Users\Jhon Eddie\Desktop\VSCode-Sample\css\vid.mp4" type="video/mp4">
+    </video>
+    <script>
+        document.querySelectorAll('a.btn').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault(); // stop instant navigation
+                const target = this.getAttribute('href');
+                document.body.classList.add('fade-out'); // trigger fade
+                setTimeout(() => {
+                    window.location.href = target; // navigate after fade finishes
+                }, 600); // match this to the transition duration above
+            });
+        });
+    </script>
+</body>
+</html>
