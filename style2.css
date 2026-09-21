@@ -1,0 +1,425 @@
+/* ---------- Base ---------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #a1a09f;
+  --ink: #F3F4F6;
+  --ink-soft: #545C56;
+  --line: #DAD9D2;
+  --accent: #3c9d7b;
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* ---------- Full-page background video ---------- */
+
+.bg-video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Opening reveal ---------- */
+
+.curtain {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: var(--bg);
+  z-index: 999;
+  pointer-events: none;
+  animation-duration: 0.9s;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  animation-fill-mode: forwards;
+}
+
+.curtain-left {
+  left: 0;
+  animation-name: revealLeft;
+}
+
+.curtain-right {
+  right: 0;
+  animation-name: revealRight;
+}
+
+@keyframes revealLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+@keyframes revealRight {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    display: none;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 72px 24px 96px;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 20px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Header / avatar ---------- */
+
+.avatar, .avatar2 {
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  max-width: 100%;
+  height: auto !important;
+  width: 180px !important;
+}
+
+h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: 24px auto 0;
+  color: var(--ink);
+}
+
+/* ---------- Top nav ---------- */
+
+.nav-jump {
+  display: block;
+  margin: 20px auto 0;
+  text-align: center;
+}
+
+.nav-jump .button {
+ 
+  display: inline-block;
+  padding: 20px 42px;
+  border: 3px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nav-jump .button:hover,
+.nav-jump .button:focus-visible {
+  background: var(--accent);
+  color: #ffd61f;
+}
+
+/* ---------- Floating photo row ---------- */
+/* One row, evenly spaced, each photo bobbing up/down and
+   rocking side to side on its own offset timing so the row
+   feels alive without any two photos moving in sync. */
+
+.sunrise {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 96px auto 120px;
+  isolation: isolate;
+}
+
+.sunrise-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 620px;
+  height: 460px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle,
+    rgba(255, 200, 120, 0.5) 0%,
+    rgba(255, 150, 90, 0.24) 45%,
+    rgba(255, 150, 90, 0) 72%);
+  filter: blur(6px);
+  z-index: -1;
+  animation: glowPulse 5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 1;   transform: translate(-50%, -50%) scale(1.06); }
+}
+
+.sunray {
+  display: block;
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 66px 66px 110px 110px;
+  box-shadow: 0 16px 28px rgba(120, 70, 20, 0.22);
+  animation: floatSpin 5s ease-in-out infinite;
+  transition: box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.sunray:hover,
+.sunray:focus-visible {
+  animation: wobble 0.6s ease-in-out infinite;
+  box-shadow: 0 22px 36px rgba(120, 70, 20, 0.32);
+}
+
+@keyframes wobble {
+  0%, 100% { rotate: -6deg;  translate: 0 0;      scale: 1;    }
+  25%      { rotate: 9deg;   translate: -5px -8px; scale: 1.05; }
+  50%      { rotate: -11deg; translate: 5px -12px; scale: 1.07; }
+  75%      { rotate: 7deg;   translate: -3px -6px; scale: 1.04; }
+}
+
+.sunray:nth-child(2) { animation-delay: 0s;    }
+.sunray:nth-child(3) { animation-delay: 0.3s;  }
+.sunray:nth-child(4) { animation-delay: 0.6s;  }
+.sunray:nth-child(5) { animation-delay: 0.9s;  }
+.sunray:nth-child(6) { animation-delay: 1.2s;  }
+
+@keyframes floatSpin {
+  0%   { translate: 0 0;     rotate: -6deg; }
+  50%  { translate: 0 -16px; rotate: 6deg;  }
+  100% { translate: 0 0;     rotate: -6deg; }
+}
+
+@media (max-width: 560px) {
+  .sunray {
+    width: 86px;
+    height: 196px;
+    border-radius: 43px 43px 72px 72px;
+  }
+  .sunrise-glow {
+    width: 420px;
+    height: 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunray,
+  .sunrise-glow {
+    animation: none;
+  }
+  .sunray:hover,
+  .sunray:focus-visible {
+    animation: none;
+  }
+}
+
+/* ---------- Background character ---------- */
+
+.bg-character {
+  position: fixed;
+  bottom: -30px;
+  right: -50px;
+  width: 420px;
+  max-width: 65vw;
+  height: auto;
+  color: var(--accent);
+  opacity: 0.07;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  .bg-character {
+    width: 280px;
+    bottom: -10px;
+    right: -40px;
+  }
+}
+
+/* ---------- Typing keyboard behind Objective paragraph ---------- */
+/* .objective-scene now wraps ONLY the <p>, and the svg is
+   inset:0 with preserveAspectRatio="none" on the element itself,
+   so it always stretches to fill that paragraph's exact box —
+   no fixed pixel size, no overflow past the text block. */
+
+.objective-scene {
+  position: relative;
+  isolation: isolate;
+}
+
+.keyboard-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.keyboard-bg .key {
+  fill: var(--accent);
+  fill-opacity: 0.16;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: keyPress 2.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.045s);
+}
+
+@keyframes keyPress {
+  0%, 90%, 100% {
+    transform: scale(1);
+    fill-opacity: 0.16;
+  }
+  95% {
+    transform: scale(0.86);
+    fill-opacity: 0.42;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keyboard-bg .key {
+    animation: none;
+  }
+}
+
+/* ---------- Content block ---------- */
+
+.wow {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.wow > p:first-child {
+  color: var(--ink-soft);
+  font-size: 16px;
+  margin-bottom: 48px;
+}
+
+h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 40px 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  scroll-margin-top: 32px;
+}
+
+.wow h2:first-of-type {
+  margin-top: 0;
+}
+
+h2:target {
+  animation: headingGlow 1.6s ease-out;
+}
+
+@keyframes headingGlow {
+  0% {
+    text-shadow: 0 0 0 rgba(55, 84, 74, 0);
+  }
+  25% {
+    text-shadow: 0 0 16px rgba(55, 84, 74, 0.6);
+    color: var(--accent);
+  }
+  100% {
+    text-shadow: 0 0 0 rgba(55, 84, 74, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  h2:target {
+    animation: none;
+  }
+}
+
+.wow p {
+  margin: 0 0 16px;
+}
+
+.wow b {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.wow a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.wow a:hover,
+.wow a:focus-visible {
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Back button ---------- */
+
+.button-container2 {
+  max-width: 640px;
+  margin: 48px auto 0;
+  text-align: center;
+}
+
+.button-container2 .button {
+  display: inline-block;
+  padding: 10px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.button-container2 .button:hover,
+.button-container2 .button:focus-visible {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+  body {
+    padding: 40px 16px 64px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
